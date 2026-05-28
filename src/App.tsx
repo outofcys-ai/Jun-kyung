@@ -101,7 +101,13 @@ export default function App() {
 
         rec.onerror = (e: any) => {
           console.error("STT: 에러 발생 ->", e.error, e.message, e);
-          // Don't alert or crash, just log and allow recovery.
+          if (e.error === "network") {
+            setVoiceSupportInfo("음성 인식 서버(Google)와의 연결에 실패했습니다. 인터넷 연결을 확인하거나 잠시 후 다시 시도해 주세요.");
+          } else if (e.error === "no-speech") {
+            // Silence is common, no need for scary warning, but reset state
+          }
+          setVoiceState("idle");
+          setIsContinuousMode(false);
         };
 
         rec.onend = () => {
