@@ -6,8 +6,8 @@ interface Env {
 }
 
 export const onRequestPost: PagesFunction<Env> = async (context) => {
+    const { request, env } = context;
     try {
-        const { request, env } = context;
         const body: any = await request.json();
         const { message, history } = body;
 
@@ -78,7 +78,11 @@ ${JSON.stringify(jeonGyeongData, null, 2)}
 
     } catch (error: any) {
         console.error("Gemini API Error in Cloudflare Functions:", error);
-        return new Response(JSON.stringify({ error: error.message || "서버 내부 오류가 발생했습니다." }), {
+        return new Response(JSON.stringify({
+            error: error.message || "서버 내부 오류가 발생했습니다.",
+            details: error.stack?.slice(0, 200),
+            envCheck: !!env.GEMINI_API_KEY
+        }), {
             status: 500,
             headers: { "Content-Type": "application/json" },
         });
