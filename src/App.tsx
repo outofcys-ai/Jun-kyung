@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from "motion/react";
 import AudioWave from "./components/AudioWave.js";
 import { jeonGyeongData, ScriptureSection } from "./data/jeonGyeong.js";
 import { DouMessage, DouVoiceState, ScriptureCategory } from "./types.js";
+import douAvatar from "./assets/images/dou_avatar_1779949802314.png";
 
 // Helper for TTS support detection
 const isBrowserSpeechSynthesisSupported = typeof window !== "undefined" && "speechSynthesis" in window;
@@ -475,7 +476,7 @@ export default function App() {
                     <div className="relative">
                       <div className="w-12 h-12 rounded-full border-2 border-[#165b4c] overflow-hidden bg-white shadow">
                         <img
-                          src="/src/assets/images/dou_avatar_1779949802314.png"
+                          src={douAvatar}
                           alt="도우"
                           className="w-full h-full object-cover"
                           referrerPolicy="no-referrer"
@@ -483,8 +484,8 @@ export default function App() {
                         />
                       </div>
                       <span className={`absolute bottom-0 right-0 w-3.5 h-3.5 rounded-full border-2 border-white ${voiceState === "listening" ? "bg-red-500 animate-pulse" :
-                          voiceState === "speaking" ? "bg-blue-500" :
-                            voiceState === "processing" ? "bg-yellow-500 animate-bounce" : "bg-green-500"
+                        voiceState === "speaking" ? "bg-blue-500" :
+                          voiceState === "processing" ? "bg-yellow-500 animate-bounce" : "bg-green-500"
                         }`} />
                     </div>
                     <div>
@@ -540,7 +541,7 @@ export default function App() {
                       {message.sender === "dou" && (
                         <div className="w-8 h-8 rounded-full border border-neutral-300 overflow-hidden bg-white shrink-0 mt-1 shadow-xs">
                           <img
-                            src="/src/assets/images/dou_avatar_1779949802314.png"
+                            src={douAvatar}
                             alt="도우"
                             className="w-full h-full object-cover"
                             referrerPolicy="no-referrer"
@@ -551,8 +552,8 @@ export default function App() {
                       <div className="flex flex-col space-y-1">
                         <div
                           className={`rounded-2xl px-4 py-2.5 shadow-xs text-sm leading-relaxed ${message.sender === "user"
-                              ? "bg-[#165b4c] text-white rounded-tr-none"
-                              : "bg-white border border-neutral-200 text-neutral-800 rounded-tl-none"
+                            ? "bg-[#165b4c] text-white rounded-tr-none"
+                            : "bg-white border border-neutral-200 text-neutral-800 rounded-tl-none"
                             }`}
                         >
                           {/* Parse newlines nicely to preservation style */}
@@ -613,10 +614,10 @@ export default function App() {
                       type="button"
                       onClick={handleToggleVoiceInput}
                       className={`p-3 rounded-full transition-all shrink-0 shadow flex items-center justify-center ${voiceState === "speaking"
-                          ? "bg-amber-500 text-white animate-pulse ring-4 ring-amber-200"
-                          : isContinuousMode
-                            ? "bg-red-500 text-white animate-pulse ring-4 ring-red-200"
-                            : "bg-[#165b4c] text-white hover:bg-[#124d40]"
+                        ? "bg-amber-500 text-white animate-pulse ring-4 ring-amber-200"
+                        : isContinuousMode
+                          ? "bg-red-500 text-white animate-pulse ring-4 ring-red-200"
+                          : "bg-[#165b4c] text-white hover:bg-[#124d40]"
                         }`}
                       title={
                         voiceState === "speaking"
@@ -711,8 +712,8 @@ export default function App() {
                         id={`cat-filter-btn-${cat}`}
                         onClick={() => setSelectedCategory(cat)}
                         className={`text-xs px-3 py-1.5 rounded-full transition-all ${selectedCategory === cat
-                            ? "bg-[#165b4c] text-white font-medium"
-                            : "bg-neutral-100 hover:bg-neutral-200 text-neutral-600"
+                          ? "bg-[#165b4c] text-white font-medium"
+                          : "bg-neutral-100 hover:bg-neutral-200 text-neutral-600"
                           }`}
                       >
                         {cat}
