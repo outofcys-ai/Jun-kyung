@@ -387,7 +387,7 @@ export default function App() {
   });
 
   return (
-    <div id="dou-app-root" className="min-h-screen bg-[#fafaf6] text-neutral-800 flex flex-col font-sans transition-colors duration-300">
+    <div id="dou-app-root" className="h-screen overflow-hidden bg-[#fafaf6] text-neutral-800 flex flex-col font-sans transition-colors duration-300">
 
       {/* Top Elegant Heritage Header */}
       <header id="app-header" className="bg-[#f0f0e8] border-b border-neutral-300 px-4 py-3 md:px-6 md:py-4 flex flex-col sm:flex-row gap-3 items-center justify-between shadow-sm shrink-0">
@@ -464,10 +464,10 @@ export default function App() {
       </header>
 
       {/* Main View Area */}
-      <main id="app-main-content" className="flex-1 max-w-6xl w-full mx-auto p-3 md:p-4 flex flex-col md:flex-row gap-4 md:overflow-hidden h-auto md:h-[calc(100vh-140px)]">
+      <main id="app-main-content" className="flex-1 min-h-0 max-w-6xl w-full mx-auto p-3 md:p-4 flex flex-col md:flex-row gap-4 overflow-hidden">
 
         {/* Left Side: Dynamic Chat & Voice Container */}
-        <section id="chat-navigation-split" className="flex-1 flex flex-col bg-white border border-neutral-300 rounded-2xl shadow-sm overflow-hidden h-[540px] md:h-full">
+        <section id="chat-navigation-split" className="flex-1 min-h-0 flex flex-col bg-white border border-neutral-300 rounded-2xl shadow-sm overflow-hidden">
 
           <AnimatePresence mode="wait">
 
@@ -851,7 +851,7 @@ export default function App() {
         </section>
 
         {/* Right Side: Scripture Peek Sidebar */}
-        <section id="sidebar-browse-pane" className="w-full md:w-80 flex flex-col bg-white border border-neutral-300 rounded-2xl shadow-sm overflow-hidden h-[450px] md:h-full shrink-0">
+        <section id="sidebar-browse-pane" className="hidden md:flex md:w-80 flex-col bg-white border border-neutral-300 rounded-2xl shadow-sm overflow-hidden md:h-full shrink-0">
           <div className="p-4 bg-[#f4f4ee] border-b border-neutral-200 shrink-0">
             <h2 className="font-semibold text-neutral-800 text-sm flex items-center gap-1.5">
               <BookOpen size={14} className="text-[#165b4c]" /> 도우 대화 가이드 (典經)
