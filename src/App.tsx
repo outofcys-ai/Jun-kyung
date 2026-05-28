@@ -389,7 +389,7 @@ export default function App() {
           <div className="w-10 h-10 rounded-full border-2 border-[#165b4c] bg-white flex items-center justify-center overflow-hidden shadow-inner">
             {/* Embedded generated beautiful master avatar */}
             <img
-              src="/src/assets/images/dou_avatar_1779949802314.png"
+              src={douAvatar}
               alt="도우(道友)"
               className="w-full h-full object-cover"
               referrerPolicy="no-referrer"
@@ -795,7 +795,7 @@ export default function App() {
                 <div className="flex flex-col items-center text-center space-y-4 py-4 max-w-xl mx-auto">
                   <div className="w-20 h-20 rounded-full border-4 border-[#165b4c] bg-white shadow-md overflow-hidden">
                     <img
-                      src="/src/assets/images/dou_avatar_1779949802314.png"
+                      src={douAvatar}
                       alt="도우"
                       className="w-full h-full object-cover"
                       referrerPolicy="no-referrer"
