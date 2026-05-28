@@ -66,25 +66,11 @@ ${JSON.stringify(jeonGyeongData, null, 2)}
             history: history || []
         });
 
-        const result: any = await chat.sendMessage({ message });
+        const result = await chat.sendMessage({ message });
         const responseHistory = await chat.getHistory();
 
-        // Robust text extraction for different SDK versions
-        let responseText = "";
-        try {
-            if (typeof result.text === 'string' && result.text) {
-                responseText = result.text;
-            } else if (result.response && typeof result.response.text === 'function') {
-                responseText = await result.response.text();
-            } else {
-                responseText = "답변을 추출할 수 없습니다. (응답 구조가 다릅니다)";
-            }
-        } catch (e: any) {
-            responseText = "답변 추출 중 오류: " + e.message;
-        }
-
         return new Response(JSON.stringify({
-            text: responseText,
+            text: result.text,
             history: responseHistory
         }), {
             headers: { "Content-Type": "application/json" },
