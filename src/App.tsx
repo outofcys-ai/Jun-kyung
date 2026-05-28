@@ -54,6 +54,7 @@ export default function App() {
   const recognitionRef = useRef<any>(null);
   const audioContextRef = useRef<AudioContext | null>(null);
   const ttsUtteranceRef = useRef<SpeechSynthesisUtterance | null>(null);
+  const speakingPollRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   const [, startTransition] = useTransition();
 
@@ -143,17 +144,40 @@ export default function App() {
   // Handle Stop TTS on unmount
   useEffect(() => {
     return () => {
+      clearSpeakingPoll();
       if (isBrowserSpeechSynthesisSupported) {
         window.speechSynthesis.cancel();
       }
     };
   }, []);
 
+  // TTS 종료 폴링 정리 헬퍼
+  const clearSpeakingPoll = () => {
+    if (speakingPollRef.current !== null) {
+      clearInterval(speakingPollRef.current);
+      speakingPollRef.current = null;
+    }
+  };
+
+  // TTS 종료 후 다음 사이클로 넘기는 공통 처리
+  const onSpeakEnd = () => {
+    clearSpeakingPoll();
+    setVoiceState("idle");
+    if (isContinuousModeRef.current) {
+      setTimeout(() => {
+        if (isContinuousModeRef.current && voiceStateRef.current === "idle") {
+          startListening();
+        }
+      }, 600);
+    }
+  };
+
   // Soft traditional Korean voice selection helper
   const speakText = (text: string) => {
     if (!isBrowserSpeechSynthesisSupported || isMuted) return;
 
-    // First cancel any playing voice
+    // 이전 폴링 정리 후 TTS 중단
+    clearSpeakingPoll();
     window.speechSynthesis.cancel();
 
     // Clean text from Markdown tags for better TTS pronouncing
@@ -208,35 +232,25 @@ export default function App() {
 
     utterance.onstart = () => {
       setVoiceState("speaking");
+
+      // 모바일에서 onend가 발화하지 않는 버그 대비 폴링 폴백
+      clearSpeakingPoll();
+      speakingPollRef.current = setInterval(() => {
+        if (!window.speechSynthesis.speaking) {
+          onSpeakEnd();
+        }
+      }, 300);
     };
 
-    utterance.onend = () => {
-      setVoiceState("idle");
-      if (isContinuousModeRef.current) {
-        setTimeout(() => {
-          if (isContinuousModeRef.current && voiceStateRef.current === "idle") {
-            startListening();
-          }
-        }, 600);
-      }
-    };
-
-    utterance.onerror = () => {
-      setVoiceState("idle");
-      if (isContinuousModeRef.current) {
-        setTimeout(() => {
-          if (isContinuousModeRef.current && voiceStateRef.current === "idle") {
-            startListening();
-          }
-        }, 600);
-      }
-    };
+    utterance.onend = () => onSpeakEnd();
+    utterance.onerror = () => onSpeakEnd();
 
     ttsUtteranceRef.current = utterance;
     window.speechSynthesis.speak(utterance);
   };
 
   const handleInterruptDou = () => {
+    clearSpeakingPoll();
     if (isBrowserSpeechSynthesisSupported) {
       window.speechSynthesis.cancel();
     }
@@ -362,6 +376,7 @@ export default function App() {
   }, [handleSendMessage]);
 
   const handleResetConversation = () => {
+    clearSpeakingPoll();
     if (isBrowserSpeechSynthesisSupported) {
       window.speechSynthesis.cancel();
     }
