@@ -70,7 +70,7 @@ ${JSON.stringify(jeonGyeongData, null, 2)}
         const responseHistory = await chat.getHistory();
 
         return new Response(JSON.stringify({
-            text: result.text,
+            text: result.response.text(),
             history: responseHistory
         }), {
             headers: { "Content-Type": "application/json" },
