@@ -1,0 +1,6 @@
+{
+  "name": "전경 대화 챗봇 - 도우",
+  "description": "대순진리회 전경을 기반으로 도담을 나누고 깊이 있는 통찰을 제시하는 점잖은 어조의 동반자 챗봇, 도우(道友)입니다.",
+  "requestFramePermissions": ["microphone"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
