@@ -103,8 +103,14 @@ export default function App() {
           console.error("STT: 에러 발생 ->", e.error, e.message, e);
           if (e.error === "network") {
             setVoiceSupportInfo("음성 인식 서버(Google)와의 연결에 실패했습니다. 인터넷 연결을 확인하거나 잠시 후 다시 시도해 주세요.");
+          } else if (e.error === "service-not-allowed") {
+            setVoiceSupportInfo("음성 인식 서비스를 사용할 수 없습니다. Android에서는 Chrome 브라우저와 Google 앱이 필요합니다. 텍스트 입력을 이용해 주세요.");
+          } else if (e.error === "not-allowed") {
+            setVoiceSupportInfo("마이크 접근 권한이 거부되었습니다. 브라우저 설정에서 마이크 권한을 허용해 주세요.");
+          } else if (e.error === "audio-capture") {
+            setVoiceSupportInfo("마이크를 찾을 수 없습니다. 기기에 마이크가 연결되어 있는지 확인해 주세요.");
           } else if (e.error === "no-speech") {
-            // Silence is common, no need for scary warning, but reset state
+            // 묵음은 흔한 상황이므로 경고 없이 상태만 초기화
           }
           setVoiceState("idle");
           setIsContinuousMode(false);
